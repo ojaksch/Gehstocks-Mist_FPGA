@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------
 -- 
 -- Arcade: Computer Space - World first commercial arcade!
--- Port to MiSTer by Sorgelig
+-- Port to MiST by Gehstock
 -- 07 November 2017
 -- 
 ---------------------------------------------------------------------------------
