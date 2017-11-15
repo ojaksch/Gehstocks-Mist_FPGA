@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------
 -- 
--- Arcade: Super Glob port to MiSTer by Sorgelig
+-- Arcade: Super Glob port to MiST by Gehstock
 -- 10 November 2017
 -- 
 ---------------------------------------------------------------------------------
@@ -13,9 +13,9 @@
 -- 
 -- 
 -- Keyboard inputs :
---
---   F2          : Coin + Start 2 players
---   F1          : Coin + Start 1 player
+--   ESC         : Coin
+--   F2          : Start 2 players
+--   F1          : Start 1 player
 --   SPACE,CTRL  : Slow
 --   UP,DOWN,LEFT,RIGHT arrows : Movements
 --
