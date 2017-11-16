@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------
 -- 
--- Arcade: Lizzard Wizzard port to MiSTer by Sorgelig
+-- Arcade: Lizzard Wizzard port to MiST by Gehstock
 -- 10 November 2017
 -- 
 ---------------------------------------------------------------------------------
@@ -8,15 +8,14 @@
 -- Copyright (c) MikeJ - Feb 2007
 ---------------------------------------------------------------------------------
 -- 
--- Support screen and controls rotation on HDMI output.
 -- Only controls are rotated on VGA output.
 -- 
 -- 
 -- Keyboard inputs :
 --
---   F2          : Coin + Start 2 players
---   F1          : Coin + Start 1 player
---   SPACE,CTRL  : Slow
+--   ESC         : Coin
+--   F2          : Start 2 players
+--   F1          : Start 1 player
 --   UP,DOWN,LEFT,RIGHT arrows : Movements
 --
 -- Joystick support.
