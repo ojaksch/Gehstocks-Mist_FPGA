@@ -1,10 +1,6 @@
 ---------------------------------------------------------------------------------
 -- 
-<<<<<<< HEAD:Arcade/ManiacMiner_MiST/README.txt
--- Arcade: Pacmanic Miner port to MiST by Gehstock
-=======
--- Arcade: PacManicMinerMan port to MiST by Gehstock
->>>>>>> 911c6b83766ced51934d8c469f7bf3860f9d73d9:ManiacMiner_MiST/README.txt
+-- Arcade: Super Glob port to MiST by Gehstock
 -- 10 November 2017
 -- 
 ---------------------------------------------------------------------------------
@@ -12,20 +8,15 @@
 -- Copyright (c) MikeJ - Feb 2007
 ---------------------------------------------------------------------------------
 -- 
+-- Support screen and controls rotation on HDMI output.
 -- Only controls are rotated on VGA output.
 -- 
 -- 
 -- Keyboard inputs :
-<<<<<<< HEAD:Arcade/ManiacMiner_MiST/README.txt
---
---   F2          : Coin + Start 2 players
---   F1          : Coin + Start 1 player
---   JUMP        : Slow
-=======
 --   ESC         : Coin
 --   F2          : Start 2 players
 --   F1          : Start 1 player
->>>>>>> 911c6b83766ced51934d8c469f7bf3860f9d73d9:ManiacMiner_MiST/README.txt
+--   SPACE,CTRL  : Slow
 --   UP,DOWN,LEFT,RIGHT arrows : Movements
 --
 -- Joystick support.
