@@ -93,13 +93,12 @@ wire        ps2_kbd_clk, ps2_kbd_data;
 wire [9:0] audio;
 wire hsync,vsync;
 assign LED = 1;
-
+wire blankn = ~(hblank | vblank);
 wire hblank, vblank;
 wire hs, vs;
-wire [2:0] r,g;
-wire [1:0] b;
+wire [3:0] r,b,g;
 
-video_mixer #(.LINE_LENGTH(640), .HALF_DEPTH(1)) video_mixer
+video_mixer #(.LINE_LENGTH(640), .HALF_DEPTH(0)) video_mixer
 (
 	.clk_sys(clk_sys),
 	.ce_pix(ce_6p),
@@ -107,9 +106,9 @@ video_mixer #(.LINE_LENGTH(640), .HALF_DEPTH(1)) video_mixer
 	.SPI_SCK(SPI_SCK),
 	.SPI_SS3(SPI_SS3),
 	.SPI_DI(SPI_DI),
-	.R(r),
-	.G(g),
-	.B(b),
+	.R({r,r[1:0]}),
+	.G({g,g[1:0]}),
+	.B({b,b[1:0]}),
 	.HSync(hs),
 	.VSync(vs),
 	.VGA_R(VGA_R),
@@ -179,10 +178,7 @@ scramble_top scramble
 
 	.O_AUDIO(audio),
 
-	.button_in1(~{m_start1, m_fire, m_bomb, m_left, m_right, m_up, m_down}),
-	.button_in2(~{m_start2, m_fire, m_bomb, m_left, m_right, m_up, m_down}),
-	.Coin_in(~m_coin),
-	.Service_in(~m_Serv),
+	.button_in(~{m_start2, m_fire, m_coin, m_start1, m_right, m_left, m_down, m_up}),
 	.RESET(status[0] | status[6] | buttons[1]),
 	.clk(clk_sys),
 	.ena_12(ce_12),

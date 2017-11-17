@@ -56,10 +56,9 @@ port (
    O_VBLANK         : out std_logic;
 
 	O_AUDIO          : out std_logic_vector(9 downto 0);
-	button_in1       : in  std_logic_vector(6 downto 0);
-	button_in2       : in  std_logic_vector(6 downto 0);
-	Coin_in			  : in  std_logic;
-	Service_in		  : in  std_logic;
+
+	button_in        : in  std_logic_vector(7 downto 0);
+
 	RESET            : in  std_logic;
 	clk              : in  std_logic; -- 25
 	ena_12           : in  std_logic; -- 6.25 x 2
@@ -74,6 +73,12 @@ architecture RTL of SCRAMBLE_TOP is
 -- this MUST be set false for scramble, the_end, amidar
 constant I_HWSEL_FROGGER  : boolean := false;
 
+-- ip registers
+signal ip_1p            : std_logic_vector(6 downto 0);
+signal ip_2p            : std_logic_vector(6 downto 0);
+signal ip_service       : std_logic;
+signal ip_coin1         : std_logic;
+signal ip_coin2         : std_logic;
 signal ip_dip_switch    : std_logic_vector(5 downto 1);
 
 -- ties to audio board
@@ -137,12 +142,12 @@ port map (
 	I_IOPC7            => audio_iopc7,
 	--
 	O_AUDIO            => O_AUDIO,
-
-	I_1P_CTRL          => button_in1,
-	I_2P_CTRL          => button_in2,
-	I_SERVICE          => Service_in,
-	I_COIN1            => Coin_in,
-	I_COIN2            => Service_in,--'1',
+	--
+	I_1P_CTRL          => ip_1p, -- start, shoot1, shoot2, left,right,up,down
+	I_2P_CTRL          => ip_2p, -- start, shoot1, shoot2, left,right,up,down
+	I_SERVICE          => ip_service,
+	I_COIN1            => ip_coin1,
+	I_COIN2            => ip_coin2,
 	O_COIN_COUNTER     => open,
 	--
 	I_DIP              => ip_dip_switch,
@@ -152,6 +157,42 @@ port map (
 	ENA_1_79           => ena_1_79,
 	CLK                => clk
 );
+
+--button_in(0) = Joystick Up
+--button_in(1) = Joystick Down
+--button_in(2) = Joystick Left
+--button_in(3) = Joystick Right
+--button_in(4) = Button Left
+--button_in(5) = Button Down
+--button_in(6) = Joystick Fire
+--button_in(7) = Button Right
+
+--Buttons are connected to ground and connect to 3.3V when pressed
+--Joystick has internal pullup resistor and connects to ground when pressed
+
+--A '0' on the input is active. Inputs are active low.
+
+-- assign inputs
+-- start, shoot1, shoot2, left,right,up,down
+ip_1p(6) <= button_in(4); -- start 1
+ip_1p(5) <= button_in(6); -- shoot1
+ip_1p(4) <= button_in(6); -- shoot2
+ip_1p(3) <= button_in(2); -- p1 left
+ip_1p(2) <= button_in(3); -- p1 right
+ip_1p(1) <= button_in(0); -- p1 up
+ip_1p(0) <= button_in(1); -- p1 down
+--
+ip_2p(6) <= button_in(7); -- start 2
+ip_2p(5) <= button_in(6);
+ip_2p(4) <= button_in(6);
+ip_2p(3) <= button_in(2); -- p2 left
+ip_2p(2) <= button_in(3); -- p2 right
+ip_2p(1) <= button_in(0); -- p2 up
+ip_2p(0) <= button_in(1); -- p2 down
+--
+ip_service <= '1';
+ip_coin1   <= button_in(5); -- credit
+ip_coin2   <= '1';
 
 -- dip switch settings
 scramble_dips : if (not I_HWSEL_FROGGER) generate
