@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------
 -- 
--- Arcade: Pengo port to MiST by Gehstock
+-- Arcade: Eyes port to MiST by Gehstock
 -- 10 November 2017
 -- 
 ---------------------------------------------------------------------------------
@@ -16,7 +16,7 @@
 --   ESC         : Coin
 --   F2          : Start 2 players
 --   F1          : Start 1 player
---   SPACE,CTRL  : Slow
+--   SPACE       : Fire
 --   UP,DOWN,LEFT,RIGHT arrows : Movements
 --
 -- Joystick support.
