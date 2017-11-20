@@ -99,7 +99,7 @@ video_mixer #(.LINE_LENGTH(292), .HALF_DEPTH(0)) video_mixer
 	.SPI_SS3(SPI_SS3),
 	.SPI_DI(SPI_DI),
 	.R({r,r}),
-	.G({g,r}),
+	.G({g,g}),
 	.B({b,b,b}),
 	.HSync(hs),
 	.VSync(vs),
