@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------------
 -- 
--- Arcade: Scramble port to MiST by Gehstock
--- 10 November 2017
+-- Arcade: Pacman port to MiST by Gehstock
+-- 09 November 2017
 -- 
 ---------------------------------------------------------------------------------
--- A simulation model of Scramble hardware
--- Copyright (c) MikeJ - Feb 2007
+-- A simulation model of Pacman hardware
+-- Copyright (c) MikeJ - January 2006
 ---------------------------------------------------------------------------------
 -- 
 -- Only controls are rotated on VGA output.
@@ -16,11 +16,8 @@
 --   ESC         : Coin
 --   F2          : Start 2 players
 --   F1          : Start 1 player
---   SPACE       : Fire+Bomb
-
 --   UP,DOWN,LEFT,RIGHT arrows : Movements
 --
 -- Joystick support.
 -- 
 ---------------------------------------------------------------------------------
-

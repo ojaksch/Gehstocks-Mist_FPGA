@@ -1,11 +1,12 @@
 ---------------------------------------------------------------------------------
 -- 
--- Arcade: Scramble port to MiST by Gehstock
--- 10 November 2017
+-- Arcade: Dream Shopper for MiST by Gehstock
+-- 20 November 2017
 -- 
 ---------------------------------------------------------------------------------
--- A simulation model of Scramble hardware
--- Copyright (c) MikeJ - Feb 2007
+-- A simulation model of Dream Shopper hardware
+-- Copyright (c) Sorgelig 
+-- Based on Pacman core: Copyright (c) MikeJ - Feb 2007
 ---------------------------------------------------------------------------------
 -- 
 -- Only controls are rotated on VGA output.
@@ -16,11 +17,9 @@
 --   ESC         : Coin
 --   F2          : Start 2 players
 --   F1          : Start 1 player
---   SPACE       : Fire+Bomb
-
+--   SPACE,CTRL  : Action
 --   UP,DOWN,LEFT,RIGHT arrows : Movements
 --
 -- Joystick support.
 -- 
 ---------------------------------------------------------------------------------
-
