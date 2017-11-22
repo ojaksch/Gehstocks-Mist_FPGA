@@ -16,7 +16,6 @@
 --   ESC         : Coin
 --   F1          : Start 1 player
 --   F2          : Start 2 players
---   SPACE,CTRL  : Fire
 --   UP,DOWN,LEFT,RIGHT arrows : Movements Player 1
 --   W,S,A,D 	 : Movements Player 2
 --
