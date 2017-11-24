@@ -45,6 +45,7 @@ localparam CONF_STR = {
 wire			clk_sys;
 wire 			clk_65;
 wire 			clk_cpu;
+wire        clk_sdram;
 wire 			locked;
 wire        scandoubler_disable;
 wire        ypbpr;
@@ -67,6 +68,7 @@ pll pll(
 	.c0(clk_sys),//26.0Mhz
 	.c1(clk_65),//6.5Mhz
 	.c2(clk_cpu),//3.25Mhz
+	.c3(clk_sdram),//100Mhz
 	.locked(locked)
 	);
 
@@ -125,6 +127,35 @@ video_mixer #(.LINE_LENGTH(800), .HALF_DEPTH(1)) video_mixer
 	.VGA_HS(VGA_HS)
 );
 
+wire [24:0]sd_addr;
+wire [7:0]sd_dout;
+wire [7:0]sd_din;
+wire sd_we;
+wire sd_rd;
+wire sd_ready;
+
+sram sram(
+	.SDRAM_DQ(SDRAM_DQ),
+	.SDRAM_A(SDRAM_A),
+	.SDRAM_DQML(SDRAM_DQML),
+	.SDRAM_DQMH(SDRAM_DQMH),
+	.SDRAM_BA(SDRAM_BA),
+	.SDRAM_nCS(SDRAM_nCS),
+	.SDRAM_nWE(SDRAM_nWE),
+	.SDRAM_nRAS(SDRAM_nRAS),
+	.SDRAM_nCAS(SDRAM_nCAS),
+	.SDRAM_CKE(SDRAM_CKE),
+	.init(~reset),
+	.clk_sdram(clk_sdram),			
+	.addr(sd_addr),   // 25 bit address
+	.dout(sd_dout),	// data output to cpu
+	.din(sd_din),     // data input from cpu
+	.we(sd_we),       // cpu requests write
+	.rd(sd_rd),       // cpu requests read
+	.ready(sd_ready)
+);
+
+
 jupiter_ace jupiter_ace
 (
    .clk_65(clk_65),
@@ -137,7 +168,13 @@ jupiter_ace jupiter_ace
 	.vsync(VSync),
    .ear(UART_RX),//Play
    .mic(UART_TX),//Record
-   .spk(audio)
+   .spk(audio),
+	.sd_addr(sd_addr),
+	.sd_dout(sd_dout),
+	.sd_din(sd_din),
+	.sd_we(sd_we),
+	.sd_rd(sd_rd),
+	.sd_ready(sd_ready)
 );
 
 sigma_delta_dac sigma_delta_dac
