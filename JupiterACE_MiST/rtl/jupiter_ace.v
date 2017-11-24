@@ -47,9 +47,9 @@ module jupiter_ace (
    wire [9:0] sram_addr, cram_addr;
     
 
-//   wire enable_write_to_rom;
-//   wire [7:0] dout_modulo_enable_write;
-//   wire modulo_enable_write_oe;
+   wire enable_write_to_rom;
+   wire [7:0] dout_modulo_enable_write;
+   wire modulo_enable_write_oe;
 
 
    assign filas = AZ80[15:8];
@@ -61,7 +61,7 @@ module jupiter_ace (
                    (uram_enable == 1'b1)?       dout_uram :
                    (xram_enable == 1'b1)?       dout_xram :
                    (eram_enable == 1'b1)?       dout_eram :
-//                   (modulo_enable_write_oe == 1'b1)? dout_modulo_enable_write :
+                   (modulo_enable_write_oe == 1'b1)? dout_modulo_enable_write :
                    (data_from_jace_oe == 1'b1)? data_from_jace :
                                                 sram_data | cram_data;  // By default, this is what the data bus sees
 
@@ -114,32 +114,32 @@ module jupiter_ace (
       .we(~wr_n)
 		);
 		
-	rom the_rom(	
-	   .clk(clk_65),
-		.a(AZ80[12:0]),
-		.dout(dout_rom)
-		);
-		
-//	rom2 the_rom(
+//	rom the_rom(	
 //	   .clk(clk_65),
-//      .ce(rom_enable),
-//	   .a(AZ80[12:0]),
-//      .din(DoutZ80),
-//	   .dout(dout_rom),
-//      .we(~wr_n & enable_write_to_rom)
+//		.a(AZ80[12:0]),
+//		.dout(dout_rom)
 //		);
+		
+	rom2 the_rom(
+	   .clk(clk_65),
+      .ce(rom_enable),
+	   .a(AZ80[12:0]),
+      .din(DoutZ80),
+	   .dout(dout_rom),
+      .we(~wr_n & enable_write_to_rom)
+		);
 
-//    io_write_to_rom modulo_habilitador_escrituras (
-//       .clk(clk_65),
-//        .a(AZ80),
-//        .iorq_n(iorq_n),
-//        .rd_n(rd_n),
-//        .wr_n(wr_n),
-//        .din(DoutZ80),
-//        .dout(dout_modulo_enable_write),
-//        .dout_oe(modulo_enable_write_oe),
-//        .enable_write_to_rom(enable_write_to_rom)
-//    );
+    io_write_to_rom modulo_habilitador_escrituras (
+       .clk(clk_65),
+        .a(AZ80),
+        .iorq_n(iorq_n),
+        .rd_n(rd_n),
+        .wr_n(wr_n),
+        .din(DoutZ80),
+        .dout(dout_modulo_enable_write),
+        .dout_oe(modulo_enable_write_oe),
+        .enable_write_to_rom(enable_write_to_rom)
+    );
     
 	
 	tv80n cpu(

@@ -3,7 +3,7 @@
 //
 // MSBI is the highest bit number. NOT amount of bits!
 //
-module sigma_delta_dac #(parameter MSBI=7)
+module sigma_delta_dac #(parameter MSBI=0)
 (
    output reg      DACout, //Average Output feeding analog lowpass
    input  [MSBI:0] DACin,  //DAC input (excess 2**MSBI)

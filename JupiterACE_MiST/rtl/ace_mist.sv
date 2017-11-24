@@ -33,18 +33,19 @@ module ace_mist(
    output        SDRAM_CKE
     );
 	 
-	 localparam CONF_STR = {
+`include "rtl\build_id.v" 
+	 
+localparam CONF_STR = {
 		  "Jupiter ACE;;",
-		  "O23,Scandoubler Fx,None,CRT 25%,CRT 50%;",
+		  "O34,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%;",
 		  "T5,Reset;",
-		  "V,v0.2;"
-};
-//		Disable SDRAM
-assign SDRAM_nCS = 1'b0;
+		  "V,v0.2.",`BUILD_DATE
+		};
 
-//   	MIST ARM I/O
-assign LED = 1'b1;
-
+wire			clk_sys;
+wire 			clk_65;
+wire 			clk_cpu;
+wire 			locked;
 wire        scandoubler_disable;
 wire        ypbpr;
 wire        ps2_kbd_clk, ps2_kbd_data;
@@ -52,132 +53,116 @@ wire        ps2_kbd_clk, ps2_kbd_data;
 wire [31:0] status;
 wire  [1:0] buttons;
 wire  [1:0] switches;
+wire 			audio;
+wire 			TapeIn;
+wire 			TapeOut;
+wire 			HSync, VSync;
+wire 			video;
+wire 	[7:0] kbd_rows;
+wire 	[4:0] kbd_columns;
+	
+pll pll(
+	.areset(),
+	.inclk0(CLOCK_27),
+	.c0(clk_sys),//26.0Mhz
+	.c1(clk_65),//6.5Mhz
+	.c2(clk_cpu),//3.25Mhz
+	.locked(locked)
+	);
 
+reg [7:0] reset_cnt;
+always @(posedge clk_sys) begin
+	if(!locked || buttons[1] || status[0] || status[5])
+		reset_cnt <= 8'h0;
+	else if(reset_cnt != 8'd255)
+		reset_cnt <= reset_cnt + 8'd1;
+end 
 
-wire        ioctl_wr;
-wire [24:0] ioctl_addr;
-//wire  [7:0] ioctl_data;
-wire        ioctl_download;
-wire        ioctl_erasing;
-wire  [7:0] ioctl_index;
-
-wire [31:0] sd_lba = "0";
-wire        sd_rd = "00000000";
-wire        sd_wr = "00000000";
-wire        sd_ack;
-wire  [8:0] sd_buff_addr;
-wire  [7:0] sd_buff_dout;
-wire  [7:0] sd_buff_din = "0";
-wire        sd_buff_wr;
-wire        img_mounted;
-wire [31:0] img_size;
-
+wire reset = (reset_cnt != 8'd255);
 
 mist_io #(.STRLEN(($size(CONF_STR)>>3))) mist_io
 (
-	.*,
 	.conf_str(CONF_STR),
-	.sd_conf(0),
-	.sd_sdhc(1),
-	.joystick_0(),
-	.joystick_1(),
-	.joystick_analog_0(),
-	.joystick_analog_1(),
-	.ioctl_force_erase(),
-	.ioctl_dout(),
-	.sd_ack_conf(),
-	.switches(),
-	.ps2_mouse_clk(),
-	.ps2_mouse_data()
+	.clk_sys(clk_sys),
+	.SPI_SCK(SPI_SCK),
+	.CONF_DATA0(CONF_DATA0),
+	.SPI_SS2(SPI_SS2),
+	.SPI_DO(SPI_DO),
+	.SPI_DI(SPI_DI),
+	.buttons(buttons),
+	.switches(switches),
+	.scandoubler_disable(scandoubler_disable),
+	.ypbpr(ypbpr),
+	.status(status),
+	.ps2_kbd_clk(ps2_kbd_clk),
+	.ps2_kbd_data(ps2_kbd_data)
 );
 
-//		CLOCKS
-   wire 				clk_sys; // 26.666666MHz
-   wire 				clk_65;  // 6.5MHz main frequency Jupiter ACE
-   wire 				clk_cpu; // CPU CLK
-	wire 				ps2_clk;
-	wire 				tape_clock;	
-	wire 				locked;
-	wire 				reset = buttons[1] | status[0] | status[5];
-	
-	  pll27 pll27_inst (
-		.areset(reset),
-		.inclk0(CLOCK_27),
-		.c0(clk_sys),//26.0Mhz
-		.c1(clk_65),//6.5Mhz
-		.c2(clk_cpu),//3.25Mhz
-		.locked(locked)
-		);
-// 	Power-on RESET (8 clocks)
-    reg [7:0] poweron_reset = 8'h00;
-	 reg resetn;
-    always @(posedge clk_65) begin
-        poweron_reset <= {poweron_reset[6:0],1'b1};
-		  resetn <= (kbd_reset & poweron_reset[7]) | reset;
-    end
- 
-wire audio, audiodac;
-wire TapeIn;
-wire TapeOut;
-
-    jupiter_ace the_core (
-        .clk_65(clk_65),
-        .clk_cpu(clk_cpu),
-        .reset(resetn),
-        .filas(kbd_rows),
-        .columnas(kbd_columns),
-        .video(video),
-        .hsync(HSync),
-	     .vsync(VSync),
-        .ear(UART_RX),//Play
-        .mic(UART_TX),//Record
-        .spk(audio)
-	);
-	
-    sigma_delta_dac dac (	
-		.DACout(audiodac),
-		.DACin(audio & audio & audio & audio & audio & audio & audio),
-		.CLK(clk_65),
-		.RESET(resetn)
-	);
-		
-assign AUDIO_R = audiodac;
-assign AUDIO_L = audiodac;
-
-wire 				kbd_reset;
-wire 				kbd_mreset;
-wire 				[7:0] kbd_rows;
-wire 				[4:0] kbd_columns;
-	
-    keyboard the_keyboard (
-        .clk(clk_65),
-        .clkps2(ps2_kbd_clk),
-        .dataps2(ps2_kbd_data),
-        .rows(kbd_rows),
-        .columns(kbd_columns),
-        .kbd_reset(kbd_reset),
-        .kbd_nmi(),
-        .kbd_mreset(kbd_mreset)        
-    );
-	 
-wire video;
-wire HSync, VSync;
-wire [2:0] R = {video,video,1'b0};
-wire [2:0] G = {video,video,1'b0};
-wire [2:0] B = {video,video,1'b0};	 
-
-video_mixer #(.LINE_LENGTH(348), .HALF_DEPTH(1)) video_mixer
+video_mixer #(.LINE_LENGTH(800), .HALF_DEPTH(1)) video_mixer
 (
-	.*,
 	.clk_sys(clk_sys),
 	.ce_pix(clk_65),
 	.ce_pix_actual(clk_65),
-	.scanlines(scandoubler_disable ? 2'b00 : {status[3:2] == 2, status[3:2] == 1}),
-	.hq2x(),//not needed
+	.SPI_SCK(SPI_SCK),
+	.SPI_SS3(SPI_SS3),
+	.SPI_DI(SPI_DI),
+	.scanlines(scandoubler_disable ? 2'b00 : {status[4:3] == 3, status[4:3] == 2}),
+	.scandoubler_disable(scandoubler_disable),
+	.hq2x(status[4:3]==1),
 	.ypbpr(ypbpr),
 	.ypbpr_full(1),
+	.R({video,video,1'b0}),
+	.G({video,video,1'b0}),
+	.B({video,video,1'b0}),
+	.mono(1),
+	.HSync(HSync),
+	.VSync(VSync),
 	.line_start(0),
-	.mono(0)
+	.VGA_R(VGA_R),
+	.VGA_G(VGA_G),
+	.VGA_B(VGA_B),
+	.VGA_VS(VGA_VS),
+	.VGA_HS(VGA_HS)
 );
+
+jupiter_ace jupiter_ace
+(
+   .clk_65(clk_65),
+   .clk_cpu(clk_cpu),
+   .reset(~reset),
+   .filas(kbd_rows),
+   .columnas(kbd_columns),
+   .video(video),
+   .hsync(HSync),
+	.vsync(VSync),
+   .ear(UART_RX),//Play
+   .mic(UART_TX),//Record
+   .spk(audio)
+);
+
+sigma_delta_dac sigma_delta_dac
+(	
+	.DACout(AUDIO_L),
+	.DACin({audio}),
+	.CLK(clk_65),
+	.RESET(0)
+);
+
+assign AUDIO_R = AUDIO_L;
+	
+keyboard keyboard
+(
+   .clk(clk_65),
+   .clkps2(ps2_kbd_clk),
+   .dataps2(ps2_kbd_data),
+   .rows(kbd_rows),
+   .columns(kbd_columns),
+   .kbd_reset(),
+   .kbd_nmi(),
+   .kbd_mreset()        
+);
+
+
+
 
 endmodule
