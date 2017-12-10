@@ -19,5 +19,5 @@
 
 
 TODO 
-	-Fix ROM Loading (is Rom Loaded with old Core u can Change to this Core for Playing)
+	-Fix ROM Loading
 	-add more Mapper
