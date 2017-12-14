@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<LOG_ROOT>
-	<PROJECT NAME="MAX">
-		<CBX_INST_ENTRY INSTANCE_NAME="|MAX|COLRAM:U11|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_14g1.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|MAX|MAINRAM:U6|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_d4g1.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|MAX|pll:pll|altpll:altpll_component" CBX_FILE_NAME="pll_altpll.v"/>
-	</PROJECT>
-</LOG_ROOT>
