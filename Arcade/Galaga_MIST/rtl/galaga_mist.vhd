@@ -68,8 +68,8 @@ architecture struct of galaga_mist is
 	signal vsync 			: std_logic;  
 	signal blankn			: std_logic;  
 	signal pix_ce			: std_logic;  
-	signal audio_pwm 		: std_logic; 
 	signal audio        	: std_logic_vector(9 downto 0);
+	signal audio_pwm		: std_logic;  
 	signal reset        	: std_logic;
 	signal scanlines		: std_logic_vector(1 downto 0);
 	signal hq2x    		: std_logic;
@@ -83,6 +83,8 @@ architecture struct of galaga_mist is
 	signal ypbpr         : std_logic;  
 
 	signal kbd_joy 		: std_logic_vector(7 downto 0);
+	signal mright        : std_logic;  
+	signal mleft         : std_logic;  
 	signal ps2Clk     	: std_logic;
 	signal ps2Data    	: std_logic;
 	signal ps2_scancode 	: std_logic_vector(7 downto 0);
@@ -92,7 +94,7 @@ architecture struct of galaga_mist is
 	signal VGA_B_O  		: std_logic_vector(2 downto 0);
 
 	constant CONF_STR : string := 
-		"Galaga;;T1,Add Coin       (ESC);T2,Player 1 Start (1);T3,Player 2 Start (2);O4,Screen Direction,Upright,Normal;O89,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%;T5,Reset;";
+		"Galaga;;O4,Screen Direction,Upright,Normal;O89,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%;T5,Reset;";
 
 	function to_slv(s: string) return std_logic_vector is
 		constant ss: string(1 to s'length) := s;
@@ -217,6 +219,9 @@ mist_io_inst : mist_io
 		ps2_kbd_data => ps2Data
 );
 
+		mleft  <= joy0(1) or joy1(1) or kbd_joy(6) when status(4) = '0' else joy0(2) or joy1(2) or kbd_joy(5);
+		mright <= joy0(0) or joy1(0) or kbd_joy(7) when status(4) = '0' else joy0(3) or joy1(3) or kbd_joy(4);
+
 galaga : entity work.galaga
 	port map(
 		clock_18     => clock_18,
@@ -235,12 +240,12 @@ galaga : entity work.galaga
 		coin         => kbd_joy(3) or status(1),
 		start1       => kbd_joy(1) or status(2),
 		start2       => kbd_joy(2) or status(3), 
-		left1        => joy0(1) or joy1(1) or kbd_joy0(6) when status(4) = '0' else joy0(2) or joy1(2) or kbd_joy0(5);
-		right1       => joy0(0) or joy1(0) or kbd_joy0(7) when status(4) = '0' else joy0(3) or joy1(3) or kbd_joy0(4);
-		fire1        => joy0(4) or joy1(4) or kbd_joy0(0),
-		left2        => joy0(1) or joy1(1) or kbd_joy0(6) when status(4) = '0' else joy0(2) or joy1(2) or kbd_joy0(5);
-		right2       => joy0(0) or joy1(0) or kbd_joy0(7) when status(4) = '0' else joy0(3) or joy1(3) or kbd_joy0(4);
-		fire2        => joy0(4) or joy1(4) or kbd_joy0(0)
+		left1        => mleft,
+		right1       => mright,
+		fire1        => joy0(4) or joy1(4) or kbd_joy(0),
+		left2        => mleft,
+		right2       => mright,
+		fire2        => joy0(4) or joy1(4) or kbd_joy(0)
 );
 
 VGA_R_O <= r        when blankn = '1' else "000";
