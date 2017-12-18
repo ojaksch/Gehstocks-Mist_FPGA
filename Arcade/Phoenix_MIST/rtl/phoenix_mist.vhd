@@ -86,7 +86,7 @@ architecture struct of phoenix_mist is
   signal upjoyR      : std_logic;
   signal upjoyB      : std_logic;
 -- config string used by the io controller to fill the OSD
-  constant CONF_STR : string := "PHOENIX;;T1,Coin;T2,Player 1 Start;T3,Player 2 Start;O4,Screen Direction,Upright,Normal;O67,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%;T5,Reset;V,v1.0;";
+  constant CONF_STR : string := "PHOENIX;;O4,Screen Direction,Upright,Normal;O67,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%;T5,Reset;V,v1.0;";
 
 	function to_slv(s: string) return std_logic_vector is
 		constant ss: string(1 to s'length) := s;
