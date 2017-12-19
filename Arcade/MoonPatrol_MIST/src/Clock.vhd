@@ -157,9 +157,9 @@ BEGIN
 	altpll_component : altpll
 	GENERIC MAP (
 		bandwidth_type => "AUTO",
-		clk0_divide_by => 981,
+		clk0_divide_by => 603,
 		clk0_duty_cycle => 50,
-		clk0_multiply_by => 130,
+		clk0_multiply_by => 80,
 		clk0_phase_shift => "0",
 		clk1_divide_by => 18,
 		clk1_duty_cycle => 50,
@@ -251,7 +251,7 @@ END SYN;
 -- Retrieval info: PRIVATE: CUR_DEDICATED_CLK STRING "c0"
 -- Retrieval info: PRIVATE: CUR_FBIN_CLK STRING "c0"
 -- Retrieval info: PRIVATE: DEVICE_SPEED_GRADE STRING "8"
--- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "981"
+-- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "603"
 -- Retrieval info: PRIVATE: DIV_FACTOR1 NUMERIC "18"
 -- Retrieval info: PRIVATE: DIV_FACTOR2 NUMERIC "9"
 -- Retrieval info: PRIVATE: DIV_FACTOR3 NUMERIC "27"
@@ -259,7 +259,7 @@ END SYN;
 -- Retrieval info: PRIVATE: DUTY_CYCLE1 STRING "50.00000000"
 -- Retrieval info: PRIVATE: DUTY_CYCLE2 STRING "50.00000000"
 -- Retrieval info: PRIVATE: DUTY_CYCLE3 STRING "50.00000000"
--- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "3.577982"
+-- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "3.582090"
 -- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE1 STRING "7.500000"
 -- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE2 STRING "30.000000"
 -- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE3 STRING "40.000000"
@@ -291,7 +291,7 @@ END SYN;
 -- Retrieval info: PRIVATE: MIRROR_CLK1 STRING "0"
 -- Retrieval info: PRIVATE: MIRROR_CLK2 STRING "0"
 -- Retrieval info: PRIVATE: MIRROR_CLK3 STRING "0"
--- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "130"
+-- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "80"
 -- Retrieval info: PRIVATE: MULT_FACTOR1 NUMERIC "5"
 -- Retrieval info: PRIVATE: MULT_FACTOR2 NUMERIC "10"
 -- Retrieval info: PRIVATE: MULT_FACTOR3 NUMERIC "40"
@@ -359,9 +359,9 @@ END SYN;
 -- Retrieval info: PRIVATE: ZERO_DELAY_RADIO STRING "0"
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 -- Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
--- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "981"
+-- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "603"
 -- Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
--- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "130"
+-- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "80"
 -- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "0"
 -- Retrieval info: CONSTANT: CLK1_DIVIDE_BY NUMERIC "18"
 -- Retrieval info: CONSTANT: CLK1_DUTY_CYCLE NUMERIC "50"

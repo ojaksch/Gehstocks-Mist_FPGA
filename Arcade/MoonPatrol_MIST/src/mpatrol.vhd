@@ -61,7 +61,7 @@ architecture SYN of mpatrol is
   signal hs 				: std_logic;
   signal vs 				: std_logic;  
   signal reset 			: std_logic;  
-  signal clock_358 		: std_logic;
+  signal clock_3p58 		: std_logic;
   signal audio_out 		: std_logic_vector(11 downto 0);
   signal sound_data     : std_logic_vector(7 downto 0);
   
@@ -125,7 +125,7 @@ begin
 Clock_inst : entity work.Clock
 	port map (
 		inclk0  			=> CLOCK_27,
-		c0					=> clock_358,--3.58
+		c0					=> clock_3p58,--3.58
 		c1 				=> clk_osd,--10
 		c2 				=> clk_sys,--30
 		c3 				=> clk_vid--40
@@ -258,7 +258,7 @@ u_keyboard : keyboard
   
 moon_patrol_sound_board : entity work.moon_patrol_sound_board
 	port map(
-		clock_3p58    	=> clock_358,
+		clock_3p58    	=> clock_3p58,
 		reset     		=> clkrst_i.arst, 
 		select_sound  	=> sound_data,
 		audio_out     	=> audio_out,
