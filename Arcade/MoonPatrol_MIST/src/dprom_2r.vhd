@@ -111,7 +111,7 @@ BEGIN
 		outdata_reg_a => outdata_reg_a,
 		outdata_reg_b => outdata_reg_b,
 		power_up_uninitialized => "FALSE",
-		ram_block_type => "M4K",
+		ram_block_type => "M9K",
 		widthad_a => WIDTHAD_A,
 		widthad_b => WIDTHAD_B,
 		width_a => WIDTH_A,
