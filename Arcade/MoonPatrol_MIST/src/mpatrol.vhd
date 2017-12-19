@@ -206,8 +206,8 @@ video_mist_inst : video_mist
 		VGA_VS			=> VGA_VS,
 		--ToDo
 		scan_disable	=> '1',--scan_disable,
-		scanlines		=> "00",--status(4 downto 3) = 3 and status(4 downto 3) = 2,--scan_disable ? 2'b00 : {status[4:3] == 3, status[4:3] == 2}),
-		hq2x				=> status(3) or status(4),
+		scanlines		=> status(4 downto 3),
+		hq2x				=> status(2),
 		ypbpr_full		=> '1',
 		line_start		=> '0',
 		mono				=> '0'

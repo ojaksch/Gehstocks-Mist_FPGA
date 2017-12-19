@@ -96,7 +96,8 @@ module mist_io #(parameter PS2DIV=100)
 
 localparam conf_str = {
 	"Moon Patr.;;",
-	"O34,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%;",
+//	"O2,HQ2x,On,Off;",no effect
+	"O34,Scandoubler Fx,None,CRT 25%,CRT 50%,CRT 75%;",	
 	"T5,Reset;",
 	"V,v1.11.",`BUILD_DATE
 };

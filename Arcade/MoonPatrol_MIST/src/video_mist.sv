@@ -95,7 +95,7 @@ wire [5:0] G_sd;
 wire [5:0] B_sd;
 wire hs_sd, vs_sd;
 
-scandoubler #(.LENGTH(256), .HALF_DEPTH(0)) scandoubler
+scandoubler #(.LENGTH(800), .HALF_DEPTH(0)) scandoubler
 (
 	.*,
 	.hs_in(HSync),
