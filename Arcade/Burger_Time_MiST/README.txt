@@ -5,7 +5,7 @@
 -- 
 ---------------------------------------------------------------------------------
 -- Copyright (c) DAR - Dez 2017
--- https://sourceforge.net/projects/darfpga/files/Software%20VHDL/burnin_rubber/
+-- https://sourceforge.net/projects/darfpga/files/Software%20VHDL/burger_time/
 ---------------------------------------------------------------------------------
 -- 
 -- Only controls are rotated on VGA output.
