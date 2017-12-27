@@ -16,8 +16,8 @@
 --   ESC         : Coin
 --   F1          : Start 1 player
 --   F2          : Start 2 players
---   SPACE       : Action
---   LALT	 : Action
+--   SPACE       : Pepper
+--   LALT	 : 
 --   ARROW KEYS  : Movement
 --
 -- Joystick support.

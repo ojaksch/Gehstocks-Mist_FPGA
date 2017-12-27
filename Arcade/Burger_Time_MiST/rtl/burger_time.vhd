@@ -290,7 +290,7 @@ vcnt_flip <= not vcnt when cocktail_flip = '0' else vcnt;
 -- btn_p2     -- nu/nu/unkonw/jump/down/up/left/right
 -- btn_system -- coin2/coin1/unknown/unknown/unkown/tilt/start2/start1
 
-dip_sw1 <= "01111111";  
+dip_sw1 <= "00111111";  
 dip_sw2 <= "11101011";
 btn_p1 <=  not("000"&fire1 & down1 & up1 & left1 & right1);
 btn_p2 <=  not("000"&fire2 & down2 & up2 & left2 & right2);
