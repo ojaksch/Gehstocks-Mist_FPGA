@@ -149,8 +149,6 @@ wire m_bomb   = kbjoy[8];
 wire blankn = ~(hblank | vblank);
 
 
-
-//condition ? if true : if false
 ladybugt ladybugt
 (
 	.CLK_IN(clk_sys),

@@ -117,8 +117,8 @@ assign AUDIO_R = AUDIO_L;
 wire hs, vs;
 wire [2:0] r, g, b;
 wire hblank, vblank;
-
-video_mixer #(.LINE_LENGTH(640), .HALF_DEPTH(0)) video_mixer
+wire blankn = ~(hblank | vblank);
+video_mixer #(.LINE_LENGTH(640), .HALF_DEPTH(1)) video_mixer
 (
 	.clk_sys(clk_18),
 	.ce_pix(clk_4p5),
@@ -126,9 +126,9 @@ video_mixer #(.LINE_LENGTH(640), .HALF_DEPTH(0)) video_mixer
 	.SPI_SCK(SPI_SCK),
 	.SPI_SS3(SPI_SS3),
 	.SPI_DI(SPI_DI),
-	.R({r,r}),
-	.G({g,g}),
-	.B({b,b}),
+	.R(blankn?r:"000"),
+	.G(blankn?g:"000"),
+	.B(blankn?b:"000"),
 	.HSync(hs),
 	.VSync(vs),
 	.VGA_R(VGA_R),

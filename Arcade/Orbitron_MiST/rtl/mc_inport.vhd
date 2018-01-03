@@ -56,7 +56,7 @@ end;
 
 architecture RTL of MC_INPORT is
 
-	constant W_TABLE   : std_logic := '0';  -- UP = 0;
+	constant W_TABLE   : std_logic := '1';  -- UP = 0;
 	constant W_TEST    : std_logic := '0';
 	constant W_SERVICE : std_logic := '0';
 

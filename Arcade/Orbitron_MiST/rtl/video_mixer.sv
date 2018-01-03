@@ -96,15 +96,16 @@ wire [DWIDTH:0] R_sd;
 wire [DWIDTH:0] G_sd;
 wire [DWIDTH:0] B_sd;
 wire hs_sd, vs_sd;
-
+reg [DWIDTH:0] Rd,Gd,Bd;
+always @(posedge clk_sys) {Rd,Gd,Bd} <= {R,G,B};
 scandoubler #(.LENGTH(LINE_LENGTH), .HALF_DEPTH(HALF_DEPTH)) scandoubler
 (
 	.*,
 	.hs_in(HSync),
 	.vs_in(VSync),
-	.r_in(R),
-	.g_in(G),
-	.b_in(B),
+	.r_in(Rd),
+	.g_in(Gd),
+	.b_in(Bd),
 
 	.hs_out(hs_sd),
 	.vs_out(vs_sd),

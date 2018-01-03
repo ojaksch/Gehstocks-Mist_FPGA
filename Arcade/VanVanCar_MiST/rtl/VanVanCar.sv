@@ -195,7 +195,7 @@ dac dac
 (
 	.clk_i(clk_sys),
 	.res_n_i(1),
-	.dac_i($unsigned(audio)),
+	.dac_i(audio[7:0]),
 	.dac_o(AUDIO_L)
 	);
 
