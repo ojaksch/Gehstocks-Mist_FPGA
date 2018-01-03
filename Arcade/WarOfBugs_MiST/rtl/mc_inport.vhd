@@ -41,9 +41,14 @@ port (
 	I_1P_LE    : in  std_logic;   --  active high
 	I_1P_RI    : in  std_logic;   --  active high
 	I_1P_SH    : in  std_logic;   --  active high
+	I_1P_UP    : in  std_logic;   --  active high
+	I_1P_DW    : in  std_logic;   --  active high
+	
 	I_2P_LE    : in  std_logic;
 	I_2P_RI    : in  std_logic;
 	I_2P_SH    : in  std_logic;
+	I_2P_UP    : in  std_logic;   --  active high
+	I_2P_DW    : in  std_logic;   --  active high
 	I_1P_START : in  std_logic;   --  active high
 	I_2P_START : in  std_logic;   --  active high
 	I_SW0_OE   : in  std_logic;
@@ -66,14 +71,14 @@ architecture RTL of MC_INPORT is
 
 begin
 
-	W_SW0_DO <= x"00" when I_SW0_OE = '0' else W_SERVICE & W_TEST &  W_TABLE &  I_1P_SH &  I_1P_RI & I_1P_LE & I_COIN2    & I_COIN1;
-	W_SW1_DO <= x"00" when I_SW1_OE = '0' else "010"                         &  I_2P_SH &  I_2P_RI & I_2P_LE & I_2P_START & I_1P_START;
-	W_DIP_DO <= x"00" when I_DIP_OE = '0' else "00000000";
+	W_SW0_DO <= x"00" when I_SW0_OE = '0' else I_1P_UP & I_1P_DW & W_TABLE &  I_1P_SH &  I_1P_RI & I_1P_LE & I_1P_UP & I_COIN1;
+	W_SW1_DO <= x"00" when I_SW1_OE = '0' else "01"              & I_2P_DW &  I_2P_SH &  I_2P_RI & I_2P_LE & I_2P_START & I_1P_START;
+	W_DIP_DO <= x"00" when I_DIP_OE = '0' else "00001010";
 	O_D      <= W_SW0_DO or W_SW1_DO or W_DIP_DO ;
 	
 --	W_SW0_DO <= x"00" when I_SW0_OE = '0' else W_SERVICE & W_TEST &  W_TABLE &  I_1P_SH &  I_1P_RI & I_1P_LE & I_COIN2    & I_COIN1;
---	W_SW1_DO <= x"00" when I_SW1_OE = '0' else "000"                         &  I_2P_SH &  I_2P_RI & I_2P_LE & I_2P_START & I_1P_START;
---	W_DIP_DO <= x"00" when I_DIP_OE = '0' else "00000100";
+--	W_SW1_DO <= x"00" when I_SW1_OE = '0' else "010"                         &  I_2P_SH &  I_2P_RI & I_2P_LE & I_2P_START & I_1P_START;
+--	W_DIP_DO <= x"00" when I_DIP_OE = '0' else "00001010";
 --	O_D      <= W_SW0_DO or W_SW1_DO or W_DIP_DO ;
 
 
