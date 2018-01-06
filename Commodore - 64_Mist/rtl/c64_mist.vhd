@@ -135,7 +135,8 @@ constant CONF_STR : string := "C64;;"&
 "O8A,Scandoubler Fx,None,HQ2x-320,HQ2x-160,CRT 25%,CRT 50%;"&
 "O3,Joysticks,normal,swapped;"&
 "O6,Audio filter,On,Off;"&
-"T5,Reset;"&
+--"OB,BIOS,C64,C64GS;" &
+--"T5,Reset;"&
 "V0,v0.30.30";
 
 -- convert string to std_logic_vector to be given to user_io
@@ -354,7 +355,7 @@ end component cartridge;
 	signal ioctl_index: std_logic_vector(7 downto 0);
 	signal ioctl_ram_addr: std_logic_vector(24 downto 0);
 	signal ioctl_ram_data: std_logic_vector(7 downto 0);
-	signal ioctl_load_addr  : std_logic_vector(24 downto 0);						--load address from mist.io LCA
+	signal ioctl_load_addr  : std_logic_vector(24 downto 0);
 	signal ioctl_ram_wr: std_logic;
 	signal ioctl_iec_cycle_used: std_logic;
 	signal ioctl_force_erase: std_logic;
@@ -401,10 +402,10 @@ end component cartridge;
 
 	signal joyA : std_logic_vector(7 downto 0);
 	signal joyB : std_logic_vector(7 downto 0);
-	signal joyA_int : std_logic_vector(5 downto 0);
-	signal joyB_int : std_logic_vector(5 downto 0);
-	signal joyA_c64 : std_logic_vector(5 downto 0);
-	signal joyB_c64 : std_logic_vector(5 downto 0);
+	signal joyA_int : std_logic_vector(6 downto 0);
+	signal joyB_int : std_logic_vector(6 downto 0);
+	signal joyA_c64 : std_logic_vector(6 downto 0);
+	signal joyB_c64 : std_logic_vector(6 downto 0);
 	signal reset_key : std_logic;
 	signal cart_detach_key :std_logic;							-- cartridge detach key CTRL-D - LCA
 	
@@ -597,10 +598,9 @@ begin
 		nmi_ack => nmi_ack
 	);
 	
-	
 	-- rearrange joystick contacta for c64
-	joyA_int <= "0" & joyA(4) & joyA(0) & joyA(1) & joyA(2) & joyA(3);
-	joyB_int <= "0" & joyB(4) & joyB(0) & joyB(1) & joyB(2) & joyB(3);
+	joyA_int <= joyA(6 downto 4) & joyA(0) & joyA(1) & joyA(2) & joyA(3);
+	joyB_int <= joyB(6 downto 4) & joyB(0) & joyB(1) & joyB(2) & joyB(3);
 
 	-- swap joysticks if requested
 	joyA_c64 <= joyB_int when status(3)='1' else joyA_int;
@@ -828,6 +828,7 @@ begin
 	port map(
 		clk32 => clk32,
 		reset_n => reset_n,
+		c64gs => status(11),
 		kbd_clk => not ps2_clk,
 		kbd_dat => ps2_dat,
 		ramAddr => c64_addr_int,
@@ -844,8 +845,7 @@ begin
 		game => game,
 		exrom => exrom,
 		UMAXromH => UMAXromH,
-		CPU_hasbus => CPU_hasbus,
-		
+		CPU_hasbus => CPU_hasbus,		
 		ioE_rom => ioE_rom,
 		ioF_rom => ioF_rom,
 		max_ram => max_ram,
@@ -859,8 +859,8 @@ begin
 		IOE => IOE,									
 		IOF => IOF,
 		ba => open,
-		joyA => unsigned(joyA_c64),
-		joyB => unsigned(joyB_c64),
+		joyA => unsigned(joyA_c64(5 downto 0)),
+		joyB => unsigned(joyB_c64(5 downto 0)),
 		serioclk => open,
 		ces => ces,
 		SIDclk => open,

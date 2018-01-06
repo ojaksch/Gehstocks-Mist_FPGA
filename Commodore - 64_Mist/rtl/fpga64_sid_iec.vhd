@@ -38,7 +38,7 @@ entity fpga64_sid_iec is
 	port(
 		clk32       : in  std_logic;
 		reset_n     : in  std_logic;
-
+		c64gs       : in std_logic;
 		-- keyboard interface (use any ordinairy PS2 keyboard)
 		kbd_clk     : in  std_logic;
 		kbd_dat     : in  std_logic;
@@ -390,6 +390,7 @@ begin
 	port map (
 		clk => clk32,
 		reset => reset,
+		c64gs => c64gs,
 		cpuHasBus => cpuHasBus,
 
 		bankSwitch => cpuIO(2 downto 0),

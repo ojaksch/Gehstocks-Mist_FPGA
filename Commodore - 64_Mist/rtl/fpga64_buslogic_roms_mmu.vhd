@@ -17,24 +17,6 @@
 -- Basic, Char and Kernel ROMs are included
 -- Original Kernel replaced by JiffyDos
 -- -----------------------------------------------------------------------
---
---                                 FPGA 64
---
---     A fully functional commodore 64 implementation in a single FPGA
---
--- -----------------------------------------------------------------------
--- Copyright 2005-2008 by Peter Wendrich (pwsoft@syntiac.com)
--- http://www.syntiac.com/fpga64.html
--- -----------------------------------------------------------------------
-
--- -----------------------------------------------------------------------
--- Dar 08/03/2014
---
--- Based on mixing both fpga64_buslogic_roms and fpga64_buslogic_nommu
--- RAM should be external SRAM
--- Basic, Char and Kernel ROMs are included
--- Original Kernel replaced by JiffyDos
--- -----------------------------------------------------------------------
 
 library IEEE;
 USE ieee.std_logic_1164.ALL;
@@ -44,6 +26,8 @@ entity fpga64_buslogic is
 	port (
 		clk : in std_logic;
 		reset : in std_logic;
+		c64gs : in std_logic;
+
 		cpuHasBus : in std_logic;
 
 		ramData: in unsigned(7 downto 0);
@@ -114,6 +98,9 @@ architecture rtl of fpga64_buslogic is
 	signal charData: unsigned(7 downto 0);
 	signal basicData: unsigned(7 downto 0);
 	signal romData: std_logic_vector(7 downto 0);
+	signal romData_c64: std_logic_vector(7 downto 0);
+	signal romData_c64gs: std_logic_vector(7 downto 0);
+	signal c64gs_ena : std_logic := '0';
 
 	signal cs_CharReg : std_logic;
 	signal cs_romReg : std_logic;
@@ -152,9 +139,33 @@ begin
 			wraddress => c64rom_addr,
 
 			rdaddress => std_logic_vector(cpuAddr(14) & cpuAddr(12 downto 0)),
-			q => romData
+			q => romData_c64
 		);
-	
+		
+--	kernelromGS: entity work.rom_GS64
+--		port map 
+--		(
+--			clock => clk,
+
+--			wren => '0',
+--			data => (others => '0'),
+--			wraddress => (others => '0'),
+
+--			rdaddress => std_logic_vector(cpuAddr(14) & cpuAddr(12 downto 0)),
+--			q => romData_c64gs
+--		);
+		
+
+	romData <= romData_c64gs when c64gs_ena = '1' else romData_c64;
+	process(clk)
+	begin
+		if rising_edge(clk) then
+			if reset = '1' then 
+				c64gs_ena <= c64gs;
+			end if;
+		end if;
+	end process;
+
 	--
 	--begin
 	process(ramData, vicData, sidData, colorData,

@@ -321,6 +321,7 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
 # end ENTITY(C64_MiST)
 # ----------------------
+set_global_assignment -name VHDL_FILE rtl/c64_mist.vhd
 set_global_assignment -name VHDL_FILE rtl/sid/wave_map.vhd
 set_global_assignment -name VHDL_FILE rtl/sid/sid_top.vhd
 set_global_assignment -name VHDL_FILE rtl/sid/sid_regs.vhd
@@ -365,4 +366,5 @@ set_global_assignment -name VHDL_FILE rtl/cia6526.vhd
 set_global_assignment -name VERILOG_FILE rtl/cartridge.v
 set_global_assignment -name VHDL_FILE rtl/c1541_sd.vhd
 set_global_assignment -name VHDL_FILE rtl/c1541_logic.vhd
+set_global_assignment -name VHDL_FILE rtl/rom_GS64.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
