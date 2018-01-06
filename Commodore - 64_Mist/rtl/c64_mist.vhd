@@ -648,7 +648,7 @@ begin
 					end if;
 				end if;
 
-				if ioctl_index = 3 then
+				if ioctl_index = 3 then--CRT, e0(MAX)
 					if ioctl_addr = 0 then
 						ioctl_load_addr <= '0' & X"100000";
 						cart_blk_len <= (others => '0');
@@ -859,8 +859,8 @@ begin
 		IOE => IOE,									
 		IOF => IOF,
 		ba => open,
-		joyA => unsigned(joyA_c64(5 downto 0)),
-		joyB => unsigned(joyB_c64(5 downto 0)),
+		joyA => unsigned(joyA_c64),
+		joyB => unsigned(joyB_c64),
 		serioclk => open,
 		ces => ces,
 		SIDclk => open,

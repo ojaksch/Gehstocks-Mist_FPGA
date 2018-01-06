@@ -83,8 +83,8 @@ entity fpga64_sid_iec is
 		freeze_key  : out std_logic;
 
 		-- joystick interface
-		joyA        : in  unsigned(5 downto 0);
-		joyB        : in  unsigned(5 downto 0);
+		joyA        : in  unsigned(6 downto 0);
+		joyB        : in  unsigned(6 downto 0);
 
 		-- serial port, for connection to pheripherals
 		serioclk    : out std_logic;
@@ -546,7 +546,9 @@ begin
 		wren => pulseWrRam and phi0_cpu and cs_sid,
 		wdata => std_logic_vector(cpuDo),
 		rdata => sid_do,
-
+		
+		potx => not std_logic((cia1_pao(7) and JoyA(5)) or (cia1_pao(6) and JoyB(5))),
+		poty => not std_logic((cia1_pao(7) and JoyA(6)) or (cia1_pao(6) and JoyB(6))),
 		comb_wave_l => '0',
 		comb_wave_r => '0',
 
