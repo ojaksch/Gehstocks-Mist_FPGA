@@ -2,13 +2,11 @@ Arcade Cores
 
 #Custom Hardware
 	Computer Space
-	Dream Shopper
 	Galaga
 	Phoenix
 	Pooyan
 	River Raid(Clone)
 	Time Pilot
-	Van Van Car
 
 #Galaxian Hardware
 	Azurian Attack
@@ -47,6 +45,7 @@ Arcade Cores
 #Pacman Hardware
 	Ali Baba and 40 Thieves
 	Crush Roller
+	Dream Shopper
 	Eeekk
 	Eyes
 	Gorkans
@@ -60,6 +59,7 @@ Arcade Cores
 	Pengo
 	Ponpoko
 	Super Glob
+	Van Van Car
 	Woodpecker
 
 #Scramble Hardware

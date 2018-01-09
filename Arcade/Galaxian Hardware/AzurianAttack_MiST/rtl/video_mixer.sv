@@ -96,8 +96,11 @@ wire [DWIDTH:0] R_sd;
 wire [DWIDTH:0] G_sd;
 wire [DWIDTH:0] B_sd;
 wire hs_sd, vs_sd;
+// Scanline FIX
 reg [DWIDTH:0] Rd,Gd,Bd;
 always @(posedge clk_sys) {Rd,Gd,Bd} <= {R,G,B};
+// Scanline FIX
+
 scandoubler #(.LENGTH(LINE_LENGTH), .HALF_DEPTH(HALF_DEPTH)) scandoubler
 (
 	.*,

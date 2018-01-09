@@ -70,7 +70,7 @@ pll pll
 	.c0(clk_18),
 	.c1(clk_12),
 	.c2(clk_6),
-	.c3(clk_4p5)//for now, needs a fix
+	.c3(clk_4p5)
 );
 
 wire m_up     = status[2] ? kbjoy[6] | joystick_0[1] | joystick_1[1] : kbjoy[4] | joystick_0[3] | joystick_1[3];
