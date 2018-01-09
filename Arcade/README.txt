@@ -1,0 +1,75 @@
+Arcade Cores
+
+#Custom Hardware
+	Computer Space
+	Dream Shopper
+	Galaga
+	Phoenix
+	Pooyan
+	River Raid(Clone)
+	Time Pilot
+	Van Van Car
+
+#Galaxian Hardware
+	Azurian Attack
+	Black Hole
+	Catacomb
+	Galaxian
+	Moon Cresta
+	Mr. Do´s Nightmare
+	Omega
+	Orbitron
+	Pisces
+	War of Bugs
+
+#Irem M52 Hardware
+	Moon Patrol
+
+#Ladybug Hardware
+	Cosmic Avenger
+	Dorodon
+	Lady Bug
+	Snapjack
+
+#Midway 8080 Hardware
+	Galaxy Wars
+	Lunar Rescue
+	Space Attack
+	Space Invaders
+	Space Invaders II(Deluxe)
+	Space Laser
+	Super Earth Invasion
+
+#Nihon Bussan Hardware
+	Burnin Rubber
+	Burger Time
+
+#Pacman Hardware
+	Ali Baba and 40 Thieves
+	Crush Roller
+	Eeekk
+	Eyes
+	Gorkans
+	Lizard Wizard
+	Maniac Miner
+	Mr. TNT
+	Ms. Pacman
+	Pacman
+	Pacman Club
+	Pacman Plus
+	Pengo
+	Ponpoko
+	Super Glob
+	Woodpecker
+
+#Scramble Hardware
+	Amidar
+	Frogger
+	Scramble
+	The End		
+
+
+
+
+
+
