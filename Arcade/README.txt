@@ -29,6 +29,10 @@ Arcade Cores
 	Lady Bug
 	Snapjack
 
+#Konami Classic
+	Pooyan
+	Time Pilot
+
 #Midway 8080 Hardware
 	Galaxy Wars
 	Lunar Rescue
