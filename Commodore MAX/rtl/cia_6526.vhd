@@ -20,7 +20,7 @@ use IEEE.numeric_std.ALL;
 
 -- -----------------------------------------------------------------------
 
-entity cia6526 is
+entity cia_6526 is
 	generic (
 		todEnabled : std_logic := '0'
 	);
@@ -50,11 +50,11 @@ entity cia6526 is
 		cnt: out std_logic;
 		irq_n: out std_logic
 	);
-end cia6526;
+end cia_6526;
 
 -- -----------------------------------------------------------------------
 
-architecture Behavioral of cia6526 is
+architecture Behavioral of cia_6526 is
 	-- IO ports
 	signal pra: unsigned(7 downto 0);
 	signal prb: unsigned(7 downto 0);

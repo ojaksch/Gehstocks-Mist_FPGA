@@ -53,11 +53,12 @@ wire [15:0]VIC_ADDR_BUS;
 tri [7:0]DATA_BUS;	
 wire BA;
 wire RW;
-wire RW_PLA;
+wire nRW_PLA;
 wire nRAM;
 wire nEXTRAM;
 wire nVIC;
 wire nSID;
+wire nCIA_PLA;
 wire nCIA;
 wire nROML;
 wire nROMH;
@@ -94,7 +95,8 @@ wire [3:0]COL_DO;
 wire [3:0]COL_rDO;
 //SID
 wire [7:0]SID_DO;
-
+//CARD
+wire [7:0]CARD_DO;
 wire [7:0]cia_pai;
 wire [7:0]cia_pao;
 wire [7:0]cia_pbi;
@@ -143,7 +145,7 @@ video_mixer #(.LINE_LENGTH(600), .HALF_DEPTH(0)) video_mixer
 	.SPI_SS3(SPI_SS3),
 	.SPI_DI(SPI_DI),
 	.scanlines(scandoubler_disable ? 2'b00 : {status[4:3] == 3, status[4:3] == 2}),
-	.scandoubler_disable(scandoubler_disable),
+	.scandoubler_disable(1),//scandoubler_disable),
 	.hq2x(status[4:3]==1),
 	.ypbpr(ypbpr),
 	.ypbpr_full(1),
@@ -188,7 +190,7 @@ cpu_6510 U5 (
 	);
 
 //PLA	MOS6703
-MOS6703 U8 (
+pla_6703 pla_6703 (
 	.A(ADDR_BUS[15:10]),
 	.CLK(clk_cpu),
 	.BA(BA),
@@ -197,17 +199,17 @@ MOS6703 U8 (
 	.EXRAM(nEXTRAM), 					//invert
 	.VIC(nVIC),  						//invert
 	.SID(nSID),  						//invert
-	.CIA(nCIA),							//invert
+	.CIA(nCIA_PLA),					//invert
 	.COLRAM(nCOLRAM),  				//invert
 	.ROML(nROML),  					//invert
 	.ROMH(nROMH), 						//invert
 	.BUF(BUF),							//not invert
-	.RW_OUT(RW_PLA)  					//invert
+	.RW_OUT(nRW_PLA)  					//invert
 	);	
 
 	
 always@(posedge clk_cpu) begin
-	if (~RW_PLA) begin
+	if (~nRW_PLA) begin
 		if (~nRAM) begin 
 			RAM_DO =CPU_DI;
 		if (~nVIC) begin 
@@ -219,7 +221,10 @@ always@(posedge clk_cpu) begin
 		if (~nSID) begin 
 			SID_DO =CPU_DI;
 		end
-		if (~nCIA) begin 
+	//	if (~nCARD) begin 
+//			CARD_DO =CPU_DI;
+//		end
+		if (~nCIA_PLA) begin 
 			CIA_DO =CPU_DI;
 		end		
 	end
@@ -234,7 +239,7 @@ COLRAM U11 (
 	.clock(clk_cpu),
 	.data(CPU_DO),
 	.rden(~nCOLRAM),
-	.wren(~RW_PLA),
+	.wren(~nRW_PLA),
 	.q(COL_rDO)
 	);
 
@@ -244,13 +249,13 @@ MAINRAM U6 (
 	.clock(clk_cpu),
 	.data(CPU_DO),
 	.rden(~nRAM),
-	.wren(~RW_PLA),
+	.wren(~nRW_PLA),
 	.q(CPU_DI)
 	);	
 
 
 //VIC MOS6566
-video_vicii_656x U4 (
+vic_656x vic_656x (
 	.clk(clk_cpu),
 	.phi(phi0_cpu),// phi = 0 is VIC cycle-- phi = 1 is CPU cycle (only used by VIC when BA is low)
 	.enaData(enablePixel),
@@ -263,7 +268,7 @@ video_vicii_656x U4 (
 	.mode6572(0),// PAL-N 65 cycles and 312 lines
 	.reset(reset),
 	.cs(~nVIC),
-	.we(~RW_PLA),
+	.we(~nRW_PLA),
 	.rd(pulseRd),
 	.lp_n(),
 	.aRegisters(DATA_BUS[5:0]),
@@ -290,7 +295,7 @@ fpga64_rgbcolor fpga64_rgbcolor (
 	);
 
 //CIA MOS6526
-cia6526 U12 (
+cia_6526 cia_6526 (
 	.clk(clk_cpu),
 	.todClk(vs),
 	.reset(reset),
@@ -306,24 +311,44 @@ cia6526 U12 (
 	.ppbi(cia_pbi),//Keyboard
 	.ppbo(cia_pbo),//Keyboard
 	.flag_n(1),
-	.sp(SP),//Cart Slot//todo
-	.cnt(CNT),//Cart Slot//todo
+	.sp(SP),
+	.cnt(CNT),
 	.irq_n(~nIRQ)
 	);
 	
 //SID MOS6581
-sid_top sid_top (
-	.clock(clk_cpu),
+sid_6581 sid_6581 (
+	.clk32(clk_cpu),
+	.clk_1MHz(clk_sid),
 	.reset(reset),   	
-   .addr({4'b0,ADDR_BUS[3:0]}),
-   .wren(~RW & ~nSID),
-   .wdata(CPU_DO),
-   .rdata(SID_DO),
-   .potx(~(cia_pao[7] & JoyA[5]) | (cia_pao[6] & JoyB[5])),//todo
-   .poty(~(cia_pao[7] & JoyA[6]) | (cia_pao[6] & JoyB[6])),//todo
-   .start_iter(clk_sid),
-   .sample_left(audio),
-   .sample_right(), 
-	.extfilter_en(status[2])
+	.cs(~nSID),
+   .we(~RW),
+	.addr({4'b0,ADDR_BUS[3:0]}),
+   .data_i(CPU_DO),
+   .data_o(SID_DO),
+   .poti_x(~(cia_pao[7] & JoyA[5]) | (cia_pao[6] & JoyB[5])),//todo
+   .poti_y(~(cia_pao[7] & JoyA[6]) | (cia_pao[6] & JoyB[6])),//todo   
+   .audio_data(audio)
 	);
+	
+cart cart(
+	.clk0(clk_cpu),
+	.addr(ADDR_BUS),
+	.data_i(CPU_DO),
+	.data_o(CART_DO),
+	.nmi(nNMI),
+   .reset(reset),
+	.romL(nROML),
+	.romH(nROMH),
+	.rw_pla_n(nRW_PLA),
+	.ba(BA),
+	.cia_pla_n(nCIA_PLA),
+	.cia_n(nCIA),
+	.cnt(CNT),
+	.exram_n(nEXTRAM),
+	.sp(SP),
+	.rw_n(RW),
+	.irq_n(nIRQ)
+	);
+	
 endmodule 

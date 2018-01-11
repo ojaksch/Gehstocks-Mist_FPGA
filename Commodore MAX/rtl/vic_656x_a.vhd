@@ -21,7 +21,7 @@ use IEEE.numeric_std.ALL;
 
 -- -----------------------------------------------------------------------
 
-architecture rtl of video_vicii_656x is
+architecture rtl of vic_656x is
 	type vicCycles is (
 		cycleRefresh1, cycleRefresh2, cycleRefresh3, cycleRefresh4, cycleRefresh5,
 		cycleIdle1,

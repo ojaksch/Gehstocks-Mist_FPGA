@@ -1,4 +1,4 @@
-module MOS6703(
+module pla_6703(
 
 input [15:10]A,
 input			CLK,//CLK
@@ -22,16 +22,16 @@ output reg	RW_OUT//RW_PLA invert
 
 always @ (posedge CLK)
 begin
-RAM = !(!A[11] & !A[12] & !A[13] & !A[14] & !A[15] & CLK & BA);
-EXRAM = !(A[11] & !A[12] & !A[13] & !A[14] & !A[15] & CLK & BA);
-ROML = !(!A[13] & !A[14] & A[15] & CLK & BA);
-ROMH = !(A[13] & A[14] & A[15] & CLK & BA);
-SID = !(A[10] & !A[11] & A[12] & !A[13] & A[14] & A[15] & CLK & BA);
-VIC = !(!A[10] & !A[11] & A[12] & !A[13] & A[14] & A[15] & CLK & BA);
-COLRAM = !(!A[10] & A[11] & A[12] & !A[13] & A[14] & A[15] & CLK & BA); 
-BUF = (!A[10] & A[11] & A[12] & !A[13] & A[14] & A[15] & CLK & BA);
-CIA = !(A[10] & A[11] & A[12] & !A[13] & A[14] & A[15] & CLK & BA);
-RW_OUT = !(CLK & !RW_IN);
+RAM = ~(~A[11] & ~A[12] & ~A[13] & ~A[14] & ~A[15] & CLK & BA);
+EXRAM = ~(A[11] & ~A[12] & ~A[13] & ~A[14] & ~A[15] & CLK & BA);
+ROML = ~(~A[13] & ~A[14] & A[15] & CLK & BA);
+ROMH = ~(A[13] & A[14] & A[15] & CLK & BA);
+SID = ~(A[10] & ~A[11] & A[12] & ~A[13] & A[14] & A[15] & CLK & BA);
+VIC = ~(~A[10] & ~A[11] & A[12] & ~A[13] & A[14] & A[15] & CLK & BA);
+COLRAM = ~(~A[10] & A[11] & A[12] & ~A[13] & A[14] & A[15] & CLK & BA); 
+BUF = (~A[10] & A[11] & A[12] & ~A[13] & A[14] & A[15] & CLK & BA);
+CIA = ~(A[10] & A[11] & A[12] & ~A[13] & A[14] & A[15] & CLK & BA);
+RW_OUT = ~(CLK & ~RW_IN);
 end
 
 

@@ -19,7 +19,7 @@ use IEEE.numeric_std.ALL;
 
 -- -----------------------------------------------------------------------
 
-entity video_vicii_656x is
+entity vic_656x is
 	generic (
 		registeredAddress : boolean := false;
 		emulateRefresh : boolean := false;
